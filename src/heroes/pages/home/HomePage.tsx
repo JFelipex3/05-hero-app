@@ -11,6 +11,7 @@ import { SearchControl } from "../search/ui/SearchControl"
 import { HeroGrid } from "@/heroes/components/HeroGrid"
 import { useState } from "react"
 import { CustomPagination } from "@/components/custom/CustomPagination"
+import { CustomBreadcrumbs } from "@/components/custom/CustomBreadcrumbs"
 
 export const HomePage = () => {
 
@@ -24,6 +25,8 @@ export const HomePage = () => {
           title="Universo de SuperHéroes" 
           description="Descubre, explora y administra super héroes y villanos" 
         />
+
+        <CustomBreadcrumbs currentPage="Super Héroes"/>
 
         {/* Stats Dashboard */}
         <HeroStats />
