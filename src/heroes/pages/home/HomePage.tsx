@@ -1,9 +1,3 @@
-import {
-  ChevronLeft,
-  ChevronRight,
-  MoreHorizontal,
-} from "lucide-react"
-import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { CustomJumbotron } from "@/components/custom/CustomJumbotron"
 import { HeroStats } from "@/heroes/components/HeroStats"
@@ -19,7 +13,7 @@ export const HomePage = () => {
   const [activeTab, setActiveTab] = useState<'all' | 'favorites' | 'heroes' | 'villains'>('all');
 
   useEffect(() => {
-    getHeroesByPage().then( (heroes) => {
+    getHeroesByPage().then((heroes) => {
       console.log({ heroes });
     });
   }, []);
@@ -28,12 +22,12 @@ export const HomePage = () => {
     <>
       <>
         {/* Header */}
-        <CustomJumbotron 
-          title="Universo de SuperHéroes" 
-          description="Descubre, explora y administra super héroes y villanos" 
+        <CustomJumbotron
+          title="Universo de SuperHéroes"
+          description="Descubre, explora y administra super héroes y villanos"
         />
 
-        <CustomBreadcrumbs currentPage="Super Héroes"/>
+        <CustomBreadcrumbs currentPage="Super Héroes" />
 
         {/* Stats Dashboard */}
         <HeroStats />
@@ -69,7 +63,7 @@ export const HomePage = () => {
         </Tabs>
 
         {/* Pagination */}
-        <CustomPagination totalPages={8}/>
+        <CustomPagination totalPages={8} />
       </>
     </>
   )
