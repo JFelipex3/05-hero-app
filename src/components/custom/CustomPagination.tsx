@@ -6,15 +6,15 @@ interface Props {
     limit?: number;
 }
 
-export const CustomPagination = ({totalPages}: Props) => {
+export const CustomPagination = ({ totalPages }: Props) => {
 
     let page = 1;
 
     return (
         <div className="flex items-center justify-center space-x-2">
-            <Button 
-                variant="outline" 
-                size="sm" 
+            <Button
+                variant="outline"
+                size="sm"
                 disabled={page === 1}
             >
                 <ChevronLeft className="h-4 w-4" />
@@ -23,18 +23,18 @@ export const CustomPagination = ({totalPages}: Props) => {
 
             {
                 Array.from({ length: totalPages }).map((_, index) => (
-                    <Button 
+                    <Button
                         key={index}
-                        variant={ page === index + 1 ? 'default' : 'outline'} 
+                        variant={page === index + 1 ? 'default' : 'outline'}
                         size="sm"
                     >
                         {index + 1}
                     </Button>
                 ))
             }
-            
-            <Button 
-                variant="outline" 
+
+            <Button
+                variant="outline"
                 size="sm"
                 disabled={page === totalPages}
             >
@@ -42,5 +42,5 @@ export const CustomPagination = ({totalPages}: Props) => {
                 <ChevronRight className="h-4 w-4" />
             </Button>
         </div>
-  )
+    )
 }

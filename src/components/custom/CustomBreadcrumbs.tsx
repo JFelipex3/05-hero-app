@@ -12,7 +12,7 @@ interface Props {
     breadcrumbs?: Breadcrumb[];
 }
 
-export const CustomBreadcrumbs = ({currentPage, breadcrumbs = []}: Props) => {
+export const CustomBreadcrumbs = ({ currentPage, breadcrumbs = [] }: Props) => {
 
     return (
         <Breadcrumb className="my-5">
@@ -25,14 +25,14 @@ export const CustomBreadcrumbs = ({currentPage, breadcrumbs = []}: Props) => {
                 </BreadcrumbItem>
 
                 {
-                    breadcrumbs.map( crumb => (
+                    breadcrumbs.map(crumb => (
                         <div className="flex items-center">
                             <BreadcrumbItem>
                                 <BreadcrumbSeparator>
                                     <SlashIcon />
                                 </BreadcrumbSeparator>
                                 <BreadcrumbLink asChild>
-                                    <Link to={ crumb.to }>{ crumb.label }</Link>
+                                    <Link to={crumb.to}>{crumb.label}</Link>
                                 </BreadcrumbLink>
                             </BreadcrumbItem>
                         </div>

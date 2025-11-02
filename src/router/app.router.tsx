@@ -7,7 +7,7 @@ import { HeroPage } from "@/heroes/pages/hero/HeroPage";
 import { HomePage } from "@/heroes/pages/home/HomePage";
 import { SearchPage } from "@/heroes/pages/search/SearchPage";
 
-const AdminPage = lazy( () => import('@/admin/pages/AdminPage'));
+const AdminPage = lazy(() => import('@/admin/pages/AdminPage'));
 
 export const appRouter = createBrowserRouter([
     {
