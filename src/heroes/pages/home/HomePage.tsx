@@ -13,7 +13,7 @@ export const HomePage = () => {
 
   const [activeTab, setActiveTab] = useState<'all' | 'favorites' | 'heroes' | 'villains'>('all');
 
-  const { data } = useQuery({
+  const { data: heroesResponse } = useQuery({
     queryKey: ['heroes'],
     queryFn: () => getHeroesByPageAction(),
     staleTime: 1000 * 60 * 5 // 5 minutos es considerada fresca
@@ -39,7 +39,7 @@ export const HomePage = () => {
         {/* Tabs */}
         <Tabs value={activeTab} className="mb-8">
           <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="all" onClick={() => setActiveTab('all')}>Todos (16)</TabsTrigger>
+            <TabsTrigger value="all" onClick={() => setActiveTab('all')}>Todos {heroesResponse?.total}</TabsTrigger>
             <TabsTrigger value="favorites" className="flex items-center gap-2" onClick={() => setActiveTab('favorites')}>Favoritos (3)</TabsTrigger>
             <TabsTrigger value="heroes" onClick={() => setActiveTab('heroes')}>Héroes (12)</TabsTrigger>
             <TabsTrigger value="villains" onClick={() => setActiveTab('villains')}>Villanos (2)</TabsTrigger>
@@ -47,24 +47,24 @@ export const HomePage = () => {
 
           <TabsContent value="all">
             {/* Mostrar todos los personajes */}
-            <HeroGrid />
+            <HeroGrid heroes={heroesResponse?.heroes ?? []} />
           </TabsContent>
           <TabsContent value="favorites">
             {/* Mostrar todos los favoritos */}
-            <HeroGrid />
+            <HeroGrid heroes={[]} />
           </TabsContent>
           <TabsContent value="heroes">
             {/* Mostrar todos los héroes */}
-            <HeroGrid />
+            <HeroGrid heroes={[]} />
           </TabsContent>
           <TabsContent value="villains">
             {/* Mostrar todos los villanos */}
-            <HeroGrid />
+            <HeroGrid heroes={[]} />
           </TabsContent>
         </Tabs>
 
         {/* Pagination */}
-        <CustomPagination totalPages={8} />
+        <CustomPagination totalPages={heroesResponse?.pages ?? 0} />
       </>
     </>
   )
