@@ -18,17 +18,20 @@ export const HomePage = () => {
   const activeTab = searchParams.get('tab') ?? 'all';
   const page = searchParams.get('page') ?? '1';
   const limit = searchParams.get('limit') ?? '6';
+  const category = searchParams.get('category') ?? 'all';
   
   const selectedTab = useMemo( () => {
     const validTabs = ['all', 'favorites', 'heroes', 'villains'];
     return validTabs.includes(activeTab) ? activeTab : 'all';
   }, [activeTab]);
   
-  const { data: heroesResponse } = usePaginatedHero(Number(page), Number(limit));
+  const { data: heroesResponse } = usePaginatedHero(Number(page), Number(limit), category);
   
-  const handleParams = (param: string, value: string) => {
+  const handleParams = (tab: string, category: string) => {
     setSearchParams( (prev) => {
-      prev.set(param, value);
+      prev.set('tab', tab);
+      prev.set('category', category);
+      prev.set('page', '1');
       return prev;
     });
   }
@@ -53,10 +56,10 @@ export const HomePage = () => {
         {/* Tabs */}
         <Tabs value={selectedTab} className="mb-8">
           <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="all" onClick={() => handleParams('tab', 'all')}>Todos ({summary?.totalHeroes})</TabsTrigger>
-            <TabsTrigger value="favorites" className="flex items-center gap-2" onClick={() => handleParams('tab', 'favorites')}>Favoritos (3)</TabsTrigger>
-            <TabsTrigger value="heroes" onClick={() => handleParams('tab', 'heroes')}>Héroes ({summary?.heroCount})</TabsTrigger>
-            <TabsTrigger value="villains" onClick={() => handleParams('tab', 'villains')}>Villanos ({summary?.villainCount})</TabsTrigger>
+            <TabsTrigger value="all" onClick={() => handleParams('all', 'all')}>Todos ({summary?.totalHeroes})</TabsTrigger>
+            <TabsTrigger value="favorites" className="flex items-center gap-2" onClick={() => handleParams('favorites', 'favorites')}>Favoritos (3)</TabsTrigger>
+            <TabsTrigger value="heroes" onClick={() => handleParams('heroes', 'hero')}>Héroes ({summary?.heroCount})</TabsTrigger>
+            <TabsTrigger value="villains" onClick={() => handleParams('villains', 'villain')}>Villanos ({summary?.villainCount})</TabsTrigger>
           </TabsList>
 
           <TabsContent value="all">
@@ -69,11 +72,11 @@ export const HomePage = () => {
           </TabsContent>
           <TabsContent value="heroes">
             {/* Mostrar todos los héroes */}
-            <HeroGrid heroes={[]} />
+            <HeroGrid heroes={heroesResponse?.heroes ?? []} />
           </TabsContent>
           <TabsContent value="villains">
             {/* Mostrar todos los villanos */}
-            <HeroGrid heroes={[]} />
+            <HeroGrid heroes={heroesResponse?.heroes ?? []} />
           </TabsContent>
         </Tabs>
 
