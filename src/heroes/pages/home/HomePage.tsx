@@ -5,39 +5,33 @@ import { SearchControl } from "../search/ui/SearchControl"
 import { HeroGrid } from "@/heroes/components/HeroGrid"
 import { CustomPagination } from "@/components/custom/CustomPagination"
 import { CustomBreadcrumbs } from "@/components/custom/CustomBreadcrumbs"
-import { getHeroesByPageAction } from "@/heroes/actions/get-heroes-by-page.action"
-import { useQuery } from "@tanstack/react-query"
 import { useSearchParams } from "react-router"
 import { useMemo } from "react"
 import { useHeroSummary } from "@/heroes/hooks/useHeroSummary"
+import { usePaginatedHero } from "@/heroes/hooks/usePaginatedHero"
 
 export const HomePage = () => {
   
   const { data: summary } = useHeroSummary();
-
+  
   const [ searchParams, setSearchParams] = useSearchParams();
   const activeTab = searchParams.get('tab') ?? 'all';
   const page = searchParams.get('page') ?? '1';
   const limit = searchParams.get('limit') ?? '6';
-
+  
   const selectedTab = useMemo( () => {
     const validTabs = ['all', 'favorites', 'heroes', 'villains'];
     return validTabs.includes(activeTab) ? activeTab : 'all';
   }, [activeTab]);
-
+  
+  const { data: heroesResponse } = usePaginatedHero(Number(page), Number(limit));
+  
   const handleParams = (param: string, value: string) => {
     setSearchParams( (prev) => {
       prev.set(param, value);
       return prev;
     });
   }
-
-  const { data: heroesResponse } = useQuery({
-    queryKey: ['heroes', {page: page, limit: limit}],
-    queryFn: () => getHeroesByPageAction(Number(page), Number(limit)),
-    staleTime: 1000 * 60 * 5 // 5 minutos es considerada fresca
-  });
-
 
   return (
     <>
