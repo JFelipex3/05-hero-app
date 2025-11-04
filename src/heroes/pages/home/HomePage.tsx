@@ -9,9 +9,11 @@ import { getHeroesByPageAction } from "@/heroes/actions/get-heroes-by-page.actio
 import { useQuery } from "@tanstack/react-query"
 import { useSearchParams } from "react-router"
 import { useMemo } from "react"
-import { getSummaryAction } from "@/heroes/actions/get-summary.action"
+import { useHeroSummary } from "@/heroes/hooks/useHeroSummary"
 
 export const HomePage = () => {
+  
+  const { data: summary } = useHeroSummary();
 
   const [ searchParams, setSearchParams] = useSearchParams();
   const activeTab = searchParams.get('tab') ?? 'all';
@@ -36,11 +38,6 @@ export const HomePage = () => {
     staleTime: 1000 * 60 * 5 // 5 minutos es considerada fresca
   });
 
-  const { data: summary } = useQuery({
-    queryKey:['summary-information'],
-    queryFn: () => getSummaryAction(),
-    staleTime: 1000 * 60 * 5 // 5 minutos
-  });
 
   return (
     <>
