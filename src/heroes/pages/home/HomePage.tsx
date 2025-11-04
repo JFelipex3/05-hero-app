@@ -9,6 +9,7 @@ import { getHeroesByPageAction } from "@/heroes/actions/get-heroes-by-page.actio
 import { useQuery } from "@tanstack/react-query"
 import { useSearchParams } from "react-router"
 import { useMemo } from "react"
+import { getSummaryAction } from "@/heroes/actions/get-summary.action"
 
 export const HomePage = () => {
 
@@ -28,10 +29,17 @@ export const HomePage = () => {
       return prev;
     });
   }
+
   const { data: heroesResponse } = useQuery({
     queryKey: ['heroes', {page: page, limit: limit}],
     queryFn: () => getHeroesByPageAction(Number(page), Number(limit)),
     staleTime: 1000 * 60 * 5 // 5 minutos es considerada fresca
+  });
+
+  const { data: summary } = useQuery({
+    queryKey:['summary-information'],
+    queryFn: () => getSummaryAction(),
+    staleTime: 1000 * 60 * 5 // 5 minutos
   });
 
   return (
@@ -54,10 +62,10 @@ export const HomePage = () => {
         {/* Tabs */}
         <Tabs value={selectedTab} className="mb-8">
           <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="all" onClick={() => handleParams('tab', 'all')}>Todos {heroesResponse?.total}</TabsTrigger>
+            <TabsTrigger value="all" onClick={() => handleParams('tab', 'all')}>Todos ({summary?.totalHeroes})</TabsTrigger>
             <TabsTrigger value="favorites" className="flex items-center gap-2" onClick={() => handleParams('tab', 'favorites')}>Favoritos (3)</TabsTrigger>
-            <TabsTrigger value="heroes" onClick={() => handleParams('tab', 'heroes')}>Héroes (12)</TabsTrigger>
-            <TabsTrigger value="villains" onClick={() => handleParams('tab', 'villains')}>Villanos (2)</TabsTrigger>
+            <TabsTrigger value="heroes" onClick={() => handleParams('tab', 'heroes')}>Héroes ({summary?.heroCount})</TabsTrigger>
+            <TabsTrigger value="villains" onClick={() => handleParams('tab', 'villains')}>Villanos ({summary?.villainCount})</TabsTrigger>
           </TabsList>
 
           <TabsContent value="all">
