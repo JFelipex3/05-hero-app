@@ -29,8 +29,8 @@ export const HomePage = () => {
     });
   }
   const { data: heroesResponse } = useQuery({
-    queryKey: ['heroes'],
-    queryFn: () => getHeroesByPageAction(+page, +limit),
+    queryKey: ['heroes', {page: page, limit: limit}],
+    queryFn: () => getHeroesByPageAction(Number(page), Number(limit)),
     staleTime: 1000 * 60 * 5 // 5 minutos es considerada fresca
   });
 
