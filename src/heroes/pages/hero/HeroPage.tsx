@@ -1,6 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import HeroNotFound from "@/heroes/components/custom/HeroNotFound";
 import { useHero } from "@/heroes/hooks/useHero";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@radix-ui/react-tabs";
 import { Star, Gauge, Zap, Users, Award, Brain, Shield } from "lucide-react";
@@ -11,9 +12,7 @@ export const HeroPage = () => {
   const { idSlug = '' } = useParams();
   const { data: heroInformation } = useHero(idSlug);
 
-  if (!heroInformation) return (
-    <h3>Loading ...</h3>
-  );
+  if (!heroInformation) return <HeroNotFound />;
 
   const totalPower = heroInformation.strength + heroInformation.intelligence + heroInformation.speed + heroInformation.durability
   const averagePower = Math.round((totalPower / 4) * 10)
