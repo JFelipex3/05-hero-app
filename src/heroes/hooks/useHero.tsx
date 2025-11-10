@@ -5,6 +5,7 @@ export const useHero = (idSlug: string) => {
   return useQuery({
     queryKey: ['hero-information', idSlug],
     queryFn: () => getHeroAction(idSlug),
+    retry: false,
     staleTime: 1000 * 60 * 5 // 5 minutos
   });
 }
