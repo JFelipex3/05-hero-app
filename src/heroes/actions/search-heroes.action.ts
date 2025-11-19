@@ -16,7 +16,7 @@ export const searchHeroesAction = async (options: Options = {}) => {
 
     const {name, team, category, universe, status, strength } = options;
 
-    if ( !name && !team && !category && !universe && !status && !strength ) {
+    if ( !name && !team && !category && !universe && !status && (!strength || strength === '0') ) {
         return [];
     }
 

@@ -52,9 +52,6 @@ export const HomePage = () => {
         {/* Stats Dashboard */}
         <HeroStats />
 
-        {/* Controls and Filters*/}
-        <SearchControl />
-
         {/* Tabs */}
         <Tabs value={selectedTab} className="mb-8">
           <TabsList className="grid w-full grid-cols-4">
