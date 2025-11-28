@@ -1,8 +1,16 @@
-import { describe, expect, test } from 'vitest';
-import { renderHook } from '@testing-library/react';
+import { describe, expect, test, vi } from 'vitest';
+import { renderHook, waitFor } from '@testing-library/react';
 import { useHeroSummary } from './useHeroSummary';
 import type { PropsWithChildren } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { getSummaryAction } from '../actions/get-summary.action';
+import type { SummaryInformationResponse } from '../types/summary-information.response';
+
+vi.mock('../actions/get-summary.action', () => ({
+    getSummaryAction: vi.fn()
+}));
+
+const mockGetSummaryAction = vi.mocked(getSummaryAction);
 
 const tanStackCustomProvider = () => {
     const queryClient = new QueryClient({
@@ -30,6 +38,37 @@ describe('useHeroSummary', () => {
         expect(result.current.isError).toBe(false);
         //expect(result.current.data).toBe(undefined);
         expect(result.current.data).toBeUndefined();
+
+    });
+
+    test('should return success state with data when API call succeeds', async () => {
+
+        const mockSummaryData = {
+            totalHeroes: 10,
+            strongestHero: {
+                id: '1',
+                name: 'Superman'
+            },
+            smartestHero: {
+                id: '2',
+                name: 'Batman'
+            },
+            heroCount: 18,
+            villainCount: 7
+        } as SummaryInformationResponse;
+
+        mockGetSummaryAction.mockResolvedValue(mockSummaryData);
+
+        const { result } = renderHook( () => useHeroSummary(), {
+            wrapper: tanStackCustomProvider()
+        });
+
+        await waitFor( () => {
+            expect(result.current.isSuccess).toBe(true);
+        });
+
+        expect(result.current.isError).toBe(false);
+        expect(mockGetSummaryAction).toHaveBeenCalled();
 
     });
 });
