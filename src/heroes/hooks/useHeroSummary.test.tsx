@@ -1,30 +1,15 @@
 import { describe, expect, test, vi } from 'vitest';
 import { renderHook, waitFor } from '@testing-library/react';
 import { useHeroSummary } from './useHeroSummary';
-import type { PropsWithChildren } from 'react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { getSummaryAction } from '../actions/get-summary.action';
 import type { SummaryInformationResponse } from '../types/summary-information.response';
+import { tanStackCustomProvider } from '../helper/tanStackCustomProvider';
 
 vi.mock('../actions/get-summary.action', () => ({
     getSummaryAction: vi.fn()
 }));
 
 const mockGetSummaryAction = vi.mocked(getSummaryAction);
-
-const tanStackCustomProvider = () => {
-    const queryClient = new QueryClient({
-        defaultOptions: {
-            queries: {
-                retry: false,
-            }
-        }
-    });
-
-    return ({ children }: PropsWithChildren) => (
-        <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-    );
-};
 
 describe('useHeroSummary', () => {
 
