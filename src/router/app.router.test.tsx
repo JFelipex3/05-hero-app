@@ -36,7 +36,7 @@ describe('appRouter', () => {
 
     });
 
-    it('shoukd render home page at root path', () => {
+    it('should render home page at root path', () => {
 
         const router = createMemoryRouter(appRouter.routes, {
             initialEntries: ['/']
@@ -66,6 +66,17 @@ describe('appRouter', () => {
         render(<RouterProvider router={router} />);
 
         expect(await screen.findByTestId('search-page')).toBeDefined();
+
+    });
+
+    it('should redirect to home page for unknown routes', () => {
+        const router = createMemoryRouter(appRouter.routes, {
+            initialEntries: ['/otra-pagina-rara']
+        });
+
+        render(<RouterProvider router={router} />);
+
+        expect(screen.getByTestId('hero-page')).toBeDefined();
 
     });
 });
