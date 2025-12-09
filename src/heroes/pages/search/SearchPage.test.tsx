@@ -5,7 +5,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { MemoryRouter } from "react-router";
 import { searchHeroesAction } from "@/heroes/actions/search-heroes.action";
 import type { Hero } from "@/heroes/types/hero.interface";
-import { AlignHorizontalJustifyCenterIcon } from "lucide-react";
 
 vi.mock('@/heroes/actions/search-heroes.action');
 const mockSearchHeroesAction = vi.mocked(searchHeroesAction);
